@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Genre{% endblock %}
+
+{% block body %}
+    <h1>Create new Genre</h1>
+
+    {{ include('backoffice/genre/_form.html.twig') }}
+
+    <a href="{{ path('app_backoffice_genre_index') }}">back to list</a>
+{% endblock %}

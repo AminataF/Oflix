@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Casting{% endblock %}
+
+{% block body %}
+    <h1>Edit Casting</h1>
+
+    {{ include('backoffice/casting/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_backoffice_casting_index') }}">back to list</a>
+
+    {{ include('backoffice/casting/_delete_form.html.twig') }}
+{% endblock %}

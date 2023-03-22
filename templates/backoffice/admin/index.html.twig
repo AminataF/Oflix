@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AdminController!{% endblock %}
+
+{% block body %}
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Seasons</h5>
+    <a href="{{ path('app_backoffice_season_index')}}" class="btn btn-success">All Seasons</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Movie index{% endblock %}
+
+{% block body %}
+    <h1>Movie index</h1>
+{% if is_granted("ROLE_ADMIN")%}
+        <a href="{{ path('app_backoffice_movie_new') }}" class="btn btn-primary" >Create new</a>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Slug</th>
+                <th>Title</th>
+                <th>Synopsis</th>
+                <th>Poster</th>
+                <th>Rating</th>
+                <th>Duration</th>
+                <th>Type</th>
+                <th>Summary</th>
+                <th>ReleaseDate</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for movie in movies %}
+            <tr>
+                <td>{{ movie.id }}</td>
+                <td>{{ movie.slug }}</td>
+                <td>{{ movie.title }}</td>
+                <td>{{ movie.synopsis }}</td>
+                <td>{{ movie.poster }}</td>
+                <td>{{ movie.rating }}</td>
+                <td>{{ movie.duration }}</td>
+                <td>{{ movie.type }}</td>
+                <td>{{ movie.summary }}</td>
+                <td>{{ movie.releaseDate ? movie.releaseDate|date('Y-m-d') : '' }}</td>
+                <td>{{ movie.createdAt ? movie.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ movie.updatedAt ? movie.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_backoffice_movie_show', {'id': movie.id}) }}">show</a>
+                    <a href="{{ path('app_backoffice_movie_edit', {'id': movie.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_backoffice_movie_new') }}">Create new</a>
+{% endblock %}

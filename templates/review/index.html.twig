@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ReviewController!{% endblock %}
+
+{% block body %}
+<h1>AJouter une critique sur le film : {{ movie.title }} </h1>
+
+<div class="container">
+    {{ form_start(formReview, {'attr': {'novalidate': 'novalidate'}})}}
+        {{ form_row(formReview.username)}}
+        {{ form_row(formReview.email)}}
+        {{ form_row(formReview.content)}}
+        {{ form_row(formReview.rating)}}
+        {{ form_row(formReview.reactions)}}
+        {{ form_row(formReview.watchedAt)}}
+        <button type="submit" class="btn btn-success">Ajouter la critique</button>
+    {{ form_end(formReview) }}
+</div>
+
+{% endblock %}

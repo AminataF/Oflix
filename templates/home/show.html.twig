@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes favoris
+{% endblock %}
+
+{% block body %}
+
+	<!-- main -->
+
+	<div class="container bg-lighttt pt-5">
+
+		<div class="row mb-2">
+
+			<div class="col">
+
+				<div class="row g-0 borderrr rrrounded overflow-hidden flex-md-row align-items-start mb-4 shadow-smmm position-relative">
+					<div class="col-4 movie__poster img-thumbnail" style="background-image: url({{ movieForView.poster }} );">
+						<img
+						src="{{ asset('images/poster-placeholder.png')}}" class="img-fluid">
+					<!-- img src="https://m.media-amazon.com/images/M/MV5BNThmZGY4NzgtMTM4OC00NzNkLWEwNmEtMjdhMGY5YTc1NDE4XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg" class="img-fluid" -->
+					</div>
+					{# C'est un commentaire twig #}
+					<div class="col-8 p-4 d-flex flex-column position-static bg-light">
+						<a
+							href="{{ path("app_favoris", {"idFavoris" : movieForView.id}) }}" class="movie__favorite fs-1 my-2 mx-3 link-danger">
+							{# Ici je vérifie si j'ai bien la valu idMovie dans l'array favoris ( comme la function in_array de php) #}
+							{% if movieForView.id in app.session.get('favoris') %}
+								<i class="bi bi-bookmark-x-fill"></i>
+							{% else %}
+								<i class="bi bi-bookmark-plus"></i>
+							{% endif %}
+						</a>
+						<strong class="d-inline-block mb-2 text-primary">{{ movieForView.type }}
+						</strong>
+						<h3 class="mb-1">{{ movieForView.title }}
+							- (id:
+							{{ movieForView.id }}
+							)</h3>
+						<div class="mb-1 text-muted">{{ movieForView.duration }}
+							min</div>
+						<p>
+							{% for genre in movieForView.genres %}
+								<span class="badge bg-warning text-dark">{{ genre.name }}</span>
+							{% endfor %}
+						</p>
+						<p>{{ movieForView.synopsis }}
+						</p>
+						<div class="d-flex mb-4" style="color: orange;">
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-fill"></i>
+							<i class="bi bi-star-half"></i>
+							<span class="ps-1">{{ movieForView.rating }}</span>
+						</div>
+
+						{# j'affiche les seasons que si c'est une série #}
+						{% if movieForView.type is same as("série")  %}
+
+							{# pour afficher le nombre d'élément d'un tableau/collection : on utilise le filtre lenght#}
+							<h2>{{ movieForView.seasons|length }}
+								Saisons</h2>
+							<ul class="list-unstyled">
+								{% for season in movieForView.seasons %}
+									<li>
+										<span class="badge bg-danger fs-6 mb-2">{{ season.name }}</span>
+										<small class="ms-1">({{ season.nbEpisode }}
+											épisodes)</small>
+									</li>
+								{% else %}
+									<em>pas de saison pour cette série</em>
+								{% endfor %}
+							</ul>
+						{% endif %}
+
+						<dl class="row">
+							<dt class="col-sm-12">Avec</dt>
+							<dd class="col-sm-12">
+								{% for casting in allCastings %}
+									{{ casting.person.firstname }}
+									{{ casting.person.lastname }}
+									({{ casting.role }})<br>
+								{% else %}
+									<em>
+										pas d'acteur</em>
+								{% endfor %}
+							</dd>
+							<dt class="col-sm-12">Pays</dt>
+							<dd class="col-sm-12">USA</dd>
+							<dt class="col-sm-12">Année</dt>
+							<dd class="col-sm-12">{{ movieForView.releaseDate|date("m/d/Y", "Europe/Paris") }}</dd>
+						</dl>
+						<div class="d-flex mb-4">
+							<a href="{{path('app_review', {id : movieForView.id})}} " class="btn btn-secondary">Ajouter une critique</a>
+						</div>
+						{% for review in reviews %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading-{{review.id}}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{review.id}}" aria-expanded="false" aria-controls="collapse-{{review.id}}">
+                                    Critique de {{review.username}} ({{ review.rating }}<i class="bi bi-star-fill"></i>)
+                                </button>
+                            </h2>
+                            <div id="collapse-{{review.id}}" class="accordion-collapse collapse" aria-labelledby="heading-{{review.id}}" data-bs-parent="#accordionReviews">
+                                <div class="accordion-body">
+                                    <p><em>visionné le {{review.watchedAt|date('d/m/Y')}}</em></p>
+                                    <p>{{review.content}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+					</div>
+					
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+{% endblock %}
